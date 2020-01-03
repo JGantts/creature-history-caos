@@ -11,7 +11,7 @@ scrp 1 2 24411 10
 			sets va70 va00
 			adds va70 ".creatureEvents.crdb1.json"
 			file oope 0 va70 0
-			outs ""
+			outs "{"
 
 			outs "\"moniker\":\""
 			outs va00
@@ -46,7 +46,7 @@ scrp 1 2 24411 10
 					outs ","
 				endi
 
-				outs ""
+				outs "{"
 
 				outs "\"moniker\":\""
 				outs va00
@@ -100,11 +100,11 @@ scrp 1 2 24411 10
 				outs hist utxt va00 va06
 				outs "\""
 
-				outs ""
+				outs "}"
 
 				addv va06 1
 			untl va06 >= va05
-			outs "]"
+			outs "]}"
 			file oclo
 		endi
 	untl va00 = ""
@@ -129,9 +129,9 @@ endm
 
 scrp 1 2 24412 9
 	inst
-
+	setv va03 hist type mv01 mv02
 *Take photo	
-	doif ov00 <> null and hist type mv01 mv02 <> 13
+	doif ov00 <> null and va03 <> 13
 		sets va00 mv01
 		adds va00 "-"
 		setv va01 mv02
@@ -142,6 +142,103 @@ scrp 1 2 24412 9
 		targ ownr
 		hist foto ov01 ov02 va00
 	endi
+*Export creature data 
+	doif mv02 = 0
+		sets va70 mv01
+		adds va70 ".creature.crdb1.json"
+		file oope 0 va70 0
+		outs "{"
+
+		outs "\"moniker\":\""
+		outs mv01
+		outs "\","
+
+		outs "\"name\":\""
+		outs hist name mv01
+		outs "\","
+
+		outs "\"crossoverPointMutations\":"
+		outv hist cros mv01
+		outs ","
+
+		outs "\"pointMutations\":"
+		outv hist mute mv01
+		outs ","
+
+		outs "\"gender\":"
+		outv hist gend mv01
+		outs ","
+
+		outs "\"genus\":"
+		outv hist gnus mv01
+		
+		outs "}"
+		file oclo
+	endi
+*Export event data
+	sets va70 mv01
+	adds va70 "-"
+	adds va70 vtos mv02
+	adds va70 ".event.crdb1.json"
+	file oope 0 va70 0
+	
+	outs "{"
+
+	outs "\"moniker\":\""
+	outs mv01
+	outs "\","
+
+	outs "\"eventNumber\":"
+	outv mv02
+	outs ","
+
+	outs "\"histEventType\":"
+	outv hist type mv01 mv02
+	outs ","
+
+	outs "\"lifeStage\":"
+	outv hist cage mv01 mv02
+	outs ","
+
+	outs "\"photo\":\""
+	outs hist foto mv01 mv02
+	outs "\","
+
+	outs "\"moniker1\":\""
+	outs hist mon1 mv01 mv02
+	outs "\","
+
+	outs "\"moniker2\":\""
+	outs hist mon2 mv01 mv02
+	outs "\","
+
+	outs "\"timeUtc\":"
+	outv hist rtim mv01 mv02
+	outs ","
+
+	outs "\"tickAge\":"
+	outv hist tage mv01 mv02
+	outs ","
+
+	outs "\"worldTick\":"
+	outv hist wtik mv01 mv02
+	outs ","
+
+	outs "\"worldName\":\""
+	outs hist wnam mv01 mv02
+	outs "\","
+
+	outs "\"worldId\":\""
+	outs hist wuid mv01 mv02
+	outs "\","
+
+	outs "\"userText\":\""
+	outs hist utxt mv01 mv02
+	outs "\""
+
+	outs "}"
+	
+	file oclo
 	kill ownr
 endm
 
