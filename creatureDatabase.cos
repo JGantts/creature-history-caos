@@ -11,7 +11,7 @@ scrp 1 2 24411 10
 			sets va70 va00
 			adds va70 ".creatureEvents.crdb1.json"
 			file oope 0 va70 0
-			outs "{"
+			outs ""
 
 			outs "\"moniker\":\""
 			outs va00
@@ -46,7 +46,7 @@ scrp 1 2 24411 10
 					outs ","
 				endi
 
-				outs "{"
+				outs ""
 
 				outs "\"moniker\":\""
 				outs va00
@@ -100,11 +100,11 @@ scrp 1 2 24411 10
 				outs hist utxt va00 va06
 				outs "\""
 
-				outs "}"
+				outs ""
 
 				addv va06 1
 			untl va06 >= va05
-			outs "]}"
+			outs "]"
 			file oclo
 		endi
 	untl va00 = ""
