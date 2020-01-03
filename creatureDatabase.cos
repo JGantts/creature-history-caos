@@ -153,3 +153,6 @@ enum 1 2 24412
 	kill targ
 next
 
+scrx 1 2 2411 10
+scrx 1 2 2411 127
+scrx 1 2 2419 9
