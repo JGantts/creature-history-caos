@@ -11,7 +11,7 @@ scrp 1 2 24411 10
 			sets va70 va00
 			adds va70 ".creatureEvents.crdb1.json"
 			file oope 0 va70 0
-			outs ""
+			outs "{"
 
 			outs "\"moniker\":\""
 			outs va00
@@ -35,8 +35,9 @@ scrp 1 2 24411 10
 
 			outs "\"genus\":"
 			outv hist gnus va00
+			outs ","
 
-			outs "\"Events\":["
+			outs "\"events\":["
 
 			setv va05 hist coun va00
 			setv va06 0
@@ -45,7 +46,7 @@ scrp 1 2 24411 10
 					outs ","
 				endi
 
-				outs "["
+				outs "{"
 
 				outs "\"moniker\":\""
 				outs va00
@@ -99,35 +100,43 @@ scrp 1 2 24411 10
 				outs hist utxt va00 va06
 				outs "\""
 
-				outs ""
+				outs "}"
 
 				addv va06 1
 			untl va06 >= va05
 			outs "]"
+			file oclo
 		endi
 	untl va00 = ""
 endm
 
 scrp 1 2 24411 127
 	seta va02 mtoa _p1_
-	dbg: asrt va02 <> null
+	setv va03 hist type _p1_ _p2_
 	doif va02 <> null
 		new: simp 1 2 24412 "blnk" 0 0 0
 		seta ov00 va02
 		sets ov01 _p1_
 		setv ov02 _p2_
-		tick rand 1 120
+		tick 1
+* 20 seconds for aged events
+		doif va03 = 4
+			tick 400
+		endi
 	endi
 	targ ownr
 endm
 
 scrp 1 2 24412 9
 	inst
-	dbg: asrt ov00 <> null
-	doif ov00 <> null
-		sets va00 ov01
+
+*Take photo	
+	doif ov00 <> null and hist type mv01 mv02 <> 13
+		sets va00 mv01
 		adds va00 "-"
-		adds va00 vtos ov02
+		setv va01 mv02
+		addv va01 1
+		adds va00 vtos va01
 		targ ov00
 		snap va00 posx posy 119 139 100
 		targ ownr
@@ -135,3 +144,12 @@ scrp 1 2 24412 9
 	endi
 	kill ownr
 endm
+
+rscr
+enum 1 2 24411
+	kill targ
+next
+enum 1 2 24412
+	kill targ
+next
+
