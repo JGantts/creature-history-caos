@@ -104,7 +104,7 @@ scrp 1 2 24411 10
 
 				addv va06 1
 			untl va06 >= va05
-			outs "]"
+			outs "]}"
 			file oclo
 		endi
 	untl va00 = ""
