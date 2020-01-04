@@ -1,0 +1,130 @@
+scrp 1 2 24 127
+	inst
+
+	setv va00 hist type _p1_ _p2_
+	doif va00 = 7
+* died
+		setv va01 0
+	elif va00 = 11
+* laid
+		setv va01 1
+	elif va00 = 3
+* born
+		setv va01 2
+	elif va00 = 8
+* pregnant
+		setv va01 3
+	else
+		stop
+	endi
+
+	doif game "Grettin" = 0
+* if it's not a Norn, ignore it
+		doif 1 <> hist gnus _p1_
+			doif va00 = 7
+				hist utxt _p1_ _p2_ "don't register"
+			endi
+			stop
+		endi
+	endi
+
+* music
+	doif va00 = 3
+		strk 30 "ds_music.mng\\Bleep"
+	elif va00 = 7
+		strk 20 "ds_music.mng\\MetallicChords"
+	endi
+
+	setv va10 3
+	setv va12 0
+	enum 1 2 25
+		setv va11 posl
+		subv va11 wndl
+		doif va11 >= va10
+			setv va10 va11
+			addv va10 wdth
+			setv va12 ov99
+		endi
+	next
+
+*	create agent to display event
+	new: simp 1 2 25 "ds_life_events" 4 0 8505
+	clac 1000
+	pose va01
+	attr 308
+	plne 9000
+	flto va10 90
+	seta va23 targ
+	setv ov99 va12
+	doif ov99 > 0
+		tick 1
+	endi
+	setv ov98 0
+
+* 	tooltip
+	sets va75 hist name _p1_
+	doif va75 = ""
+		sets va75 read "Life Event ToolTip Genus" hist gnus _p1_
+	endi
+	sets va74 read "Life Event ToolTip" va01
+	adds va75 " "
+	adds va75 va74
+* 	egglaid - who is the mother?
+	doif va01 = 1
+		sets va77 hist mon1 _p1_ _p2_
+		sets va76 hist name va77
+		doif va76 = ""
+			adds va76 read "Life Event ToolTip Genus" hist gnus va77
+		endi
+		sets va75 va76
+		adds va75 " "
+		adds va75 read "Life Event ToolTip" 1
+	endi
+* 	set the tip
+	sets name "tooltip" va75
+
+* 	store target agent and camera position
+	seta ov00 mtoc _p1_
+	doif ov00 = null
+		seta ov00 mtoa _p1_
+	endi
+	doif ov00 <> null
+		targ ov00
+		doif room targ = -1 or carr = game "c3_inventory"
+			setv va21 0
+			setv va22 0
+		else
+			setv va21 posx
+			setv va22 posy
+		endi
+	else
+		setv va21 0
+		setv va22 0
+	endi
+
+	targ va23
+	setv ov01 va21
+	setv ov02 va22
+	setv ov03 va00
+
+* if too many agents, lose left hand one
+*	setv va50 wndw
+*	divv va50 2
+*	doif va10 > va50
+
+
+	setv va00 game "ds_number_of_life_events"
+	setv va01 totl 1 2 25
+	doif va01 gt va00
+		enum 1 2 25
+			tick 1
+			setv va51 posl
+			subv va51 wndl
+			subv va51 ov99
+			doif va51 < wdth
+				setv ov98 1
+			endi
+			addv ov99 wdth
+		next
+	endi
+endm
