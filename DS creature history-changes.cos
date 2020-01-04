@@ -1,0 +1,116 @@
+
+* close button
+scrp 1 2 23 2002
+	lock
+	doif ov02 = 1001
+* name entered
+		part 2
+		hist name ov01 ptxt
+		sets va70 ov01
+		adds va70 ".name.crdb1.json"
+		file oope 0 va70 0
+		outs hist name ov01
+		file oclo
+
+* user text entered
+		part 4
+		hist utxt ov01 0 ptxt
+		sets va70 ov01
+		adds va70 "."
+		adds va70 vtos 0
+		adds va70 ".utxt.crdb1.json"
+		file oope 0 va70 0
+		outs hist utxt ov01 0
+		file oclo
+	endi
+
+	part 101
+	anim [0 1]
+	wait 5
+	anim [1 0]
+	wait 2
+
+	rtar 1 2 13
+	doif targ ne null
+		mesg writ targ 127
+	endi
+	rtar 1 2 14
+	doif targ ne null
+		mesg writ targ 127
+	endi
+	rtar 1 2 208
+	doif targ ne null
+		mesg writ targ 127
+	endi
+
+
+	inst
+
+	wait 1
+	targ game "c3_default_focus"
+	part game "c3_default_focus_part"
+	fcus
+
+	kill mv03
+	kill ownr
+endm
+
+* general purpose refresh
+scrp 1 2 23 256
+	inst
+
+*	if nothing changed, stay the same
+	doif ov00 = ov10 and ov01 = ov11 and ov02 = ov12
+		stop
+	endi
+
+	doif ov02 = 1001
+* name enteredx
+		part 2
+		hist name ov01 ptxt
+		sets va70 ov01
+		adds va70 ".name.crdb1.json"
+		file oope 0 va70 0
+		outs hist name ov01
+		file oclo
+
+* user text entered
+		part 4
+		hist utxt ov01 0 ptxt
+		sets va70 ov01
+		adds va70 "."
+		adds va70 vtos 0
+		adds va70 ".utxt.crdb1.json"
+		file oope 0 va70 0
+		outs hist utxt ov01 0
+		file oclo
+	endi
+
+*	kill old parts
+	setv va00 1
+	loop
+		pat: kill va00
+		addv va00 1
+	untl va00 >= 100
+
+*	copy pending values over	
+	seta ov00 ov10
+	sets ov01 ov11
+	setv ov02 ov12
+
+	mesg writ ownr ov02
+endm
+
+
+scrp 1 2 23 2000
+	inst
+	part 2
+	hist name ov01 ptxt
+	sets va70 ov01
+	adds va70 ".name.crdb1.json"
+	file oope 0 va70 0
+	outs hist name ov01
+	file oclo
+	part 4
+	fcus
+endm
